@@ -1,7 +1,7 @@
 import os
 
 from .base import TkDevice, SingletonMeta
-from .base import PreciseMockTriggerPin, PreciseMockFactory, PreciseMockChargingPin
+from .base import PreciseMockTriggerPin, PreciseMockFactory, PreciseMockChargingPin, MockMCP3002
 from gpiozero import Device
 from gpiozero.pins.mock import MockPWMPin
 from PIL import ImageEnhance, Image, ImageTk
@@ -13,11 +13,13 @@ from threading import Thread, Timer
 from sys import path, exit
 from pathlib import Path
 from math import sqrt, cos, sin
-
+import random
+from time import sleep
 
 class TkCircuit(metaclass=SingletonMeta):
     def __init__(self, setup):
-        Device.pin_factory = PreciseMockFactory(pin_class=MockPWMPin)
+        # Device.pin_factory = PreciseMockFactory(pin_class=MockPWMPin)
+        Device.pin_factory = PreciseMockFactory()
 
         path.insert(0, str(Path(__file__).parent.absolute()))
 
@@ -60,6 +62,10 @@ class TkCircuit(metaclass=SingletonMeta):
 
         for parameters in setup["buttons"]:
             self.add_device(TkButton, parameters)
+
+        if "mcp3002s" in setup:
+            for parameters in setup["mcp3002s"]:
+                self.add_device(TkMCP3002, parameters)
 
 
     def add_device(self, device_class, parameters):
@@ -209,3 +215,19 @@ class TkServo(TkDevice):
         self._bg_canvas.create_line(self._x, self._y, cos(angle)*self._length*-1 + self._x, sin(angle)*self._length*-1 + self._y, tags='my_tag', fill="red", width=3)
 
         self._redraw()
+
+class TkMCP3002(TkDevice):
+    def __init__(self, root, x, y, name, clock_pin, mosi_pin, miso_pin, select_pin):
+        super().__init__(root, x, y, name)
+
+        self.mock = MockMCP3002(clock_pin=clock_pin, mosi_pin=mosi_pin, miso_pin=miso_pin, select_pin=select_pin)
+        self.mock.channels[1] = 2.0
+
+        # Temporarily generate random changes
+        thread = Thread(target=self._loop, daemon=True)
+        thread.start()
+
+    def _loop(self):
+        while True:
+            self.mock.channels[1] = random.random() * 3.3
+            sleep(0.1)
