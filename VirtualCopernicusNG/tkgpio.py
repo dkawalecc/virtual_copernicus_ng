@@ -199,20 +199,23 @@ class TkButton(TkDevice):
 class TkServo(TkDevice):
     on_image = None
 
-    def __init__(self, root, x, y, name, pin, bg_canvas, length):
+    def __init__(self, root, x, y, name, pin, bg_canvas, length, min_angle=-90, max_angle=90):
         super().__init__(root, x, y, name)
 
+        self.pin = pin
         self._pin = Device.pin_factory.pin(pin, pin_class=MockPWMPin)
         self._bg_canvas = bg_canvas
         self._length = length
+        self._min_angle = min_angle
+        self._max_angle = max_angle
 
     def update(self):
 
-        angle = ((self._pin.state-0.05) / 0.05) * 180
+        angle = ((self._pin.state-0.05) / 0.05) * (self._max_angle - self._min_angle) + self._min_angle
         angle = angle/180 * 3.14
 
-        self._bg_canvas.delete("my_tag")
-        self._bg_canvas.create_line(self._x, self._y, cos(angle)*self._length*-1 + self._x, sin(angle)*self._length*-1 + self._y, tags='my_tag', fill="red", width=3)
+        self._bg_canvas.delete(f"servo:{self.pin}")
+        self._bg_canvas.create_line(self._x, self._y, cos(angle)*self._length*-1 + self._x, sin(angle)*self._length*-1 + self._y, tags=f"servo:{self.pin}", fill="red", width=3)
 
         self._redraw()
 
