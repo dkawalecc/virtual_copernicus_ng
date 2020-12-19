@@ -1,4 +1,5 @@
-from gpiozero.pins.mock import MockFactory, MockTriggerPin, MockPWMPin, MockChargingPin, MockSPIDevice
+from gpiozero.pins.mock import MockTriggerPin, MockPWMPin, MockChargingPin, MockSPIDevice
+from .overrides import MockFactory
 from PIL import ImageTk, Image
 from time import sleep, perf_counter
 from os import path

@@ -24,7 +24,7 @@ configuration = {
         {"x": 100, "y": 160, "name": "ADC 1", "clock_pin": 11, "mosi_pin": 10, "miso_pin": 9, "select_pin": 8},
     ],
     "servos": [
-        {"x": 170, "y": 150, "length": 90, "name": "Servo", "pin": 17}
+        {"x": 154, "y": 148, "length": 90, "name": "Servo", "pin": 17}
     ]
 }
 
@@ -37,13 +37,12 @@ def main():
 
     pot = MCP3002(1, clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
 
-    servo = AngularServo(17, min_angle=-90, max_angle=90)
-    servo.angle = -90
+    servo = AngularServo(17, min_angle=0, max_angle=180)
+    servo.angle = 0
 
     while True:
         print("pot value = ", pot.value)
-        print("pot voltage = ", pot.voltage)
-        print("raw voltage= ", pot.raw_value)
-        import random
-        servo.angle = random.random() * 180 - 90
-        sleep(1)
+        # print("pot voltage = ", pot.voltage)
+        # print("raw voltage= ", pot.raw_value)
+        servo.angle = 159 * pot.value
+        sleep(0.1)

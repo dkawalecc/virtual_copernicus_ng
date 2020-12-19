@@ -202,7 +202,7 @@ class TkServo(TkDevice):
     def __init__(self, root, x, y, name, pin, bg_canvas, length):
         super().__init__(root, x, y, name)
 
-        self._pin = Device.pin_factory.pin(pin)
+        self._pin = Device.pin_factory.pin(pin, pin_class=MockPWMPin)
         self._bg_canvas = bg_canvas
         self._length = length
 
@@ -221,11 +221,7 @@ class TkMCP3002(TkDevice):
         super().__init__(root, x, y, name)
 
         self.mock = MockMCP3002(clock_pin=clock_pin, mosi_pin=mosi_pin, miso_pin=miso_pin, select_pin=select_pin)
-        self.mock.channels[1] = 2.0
-
-        # Temporarily generate random changes
-        # thread = Thread(target=self._loop, daemon=True)
-        # thread.start()
+        self.mock.channels[1] = 0
 
         self._create_main_widget(Scale, None)
         self._widget.config(from_=0, to=100, orient=HORIZONTAL, showvalue=False, command=self.update)
