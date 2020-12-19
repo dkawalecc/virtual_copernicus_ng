@@ -41,7 +41,7 @@ class TkCircuit(metaclass=SingletonMeta):
 
         self._root.protocol("WM_DELETE_WINDOW", self._on_closing)
 
-        background_label = Canvas(self._root)
+        background_label = Canvas(self._root, width=setup["width"], height=setup["height"])
         if "sheet" in setup.keys():
             current_folder = str(Path(__file__).parent.absolute())
             file_path = current_folder + "/images_copernicus/" + setup['sheet']
@@ -224,10 +224,12 @@ class TkMCP3002(TkDevice):
         self.mock.channels[1] = 2.0
 
         # Temporarily generate random changes
-        thread = Thread(target=self._loop, daemon=True)
-        thread.start()
+        # thread = Thread(target=self._loop, daemon=True)
+        # thread.start()
 
-    def _loop(self):
-        while True:
-            self.mock.channels[1] = random.random() * 3.3
-            sleep(0.1)
+        self._create_main_widget(Scale, None)
+        self._widget.config(from_=0, to=100, orient=HORIZONTAL, showvalue=False, command=self.update)
+
+    def update(self, event):
+        value = self._widget.get()
+        self.mock.channels[1] = (value / 100) * 3.3
