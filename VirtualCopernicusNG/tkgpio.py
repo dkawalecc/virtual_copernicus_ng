@@ -27,7 +27,7 @@ class TkCircuit(metaclass=SingletonMeta):
             "name": "Virtual GPIO",
             "width": 500, "height": 500,
             "leds":[], "buzzers":[], "buttons":[],
-            "servos":[]
+            "servos":[], "mcp3002s": []
         }
 
         default_setup.update(setup)
@@ -63,9 +63,8 @@ class TkCircuit(metaclass=SingletonMeta):
         for parameters in setup["buttons"]:
             self.add_device(TkButton, parameters)
 
-        if "mcp3002s" in setup:
-            for parameters in setup["mcp3002s"]:
-                self.add_device(TkMCP3002, parameters)
+        for parameters in setup["mcp3002s"]:
+            self.add_device(TkMCP3002, parameters)
 
 
     def add_device(self, device_class, parameters):
