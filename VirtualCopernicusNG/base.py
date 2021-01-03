@@ -109,10 +109,10 @@ class SingletonMeta(type):
 class MockMCP3xxx(MockSPIDevice):
     def __init__(
             self, clock_pin, mosi_pin, miso_pin, select_pin=None,
-            channels=8, bits=10):
+            channels=8, bits=10, max_voltage=3.3):
         super(MockMCP3xxx, self).__init__(
             clock_pin, mosi_pin, miso_pin, select_pin)
-        self.vref = 3.3
+        self.vref = max_voltage
         self.channels = [0.0] * channels
         self.channel_bits = 3
         self.bits = bits
@@ -158,16 +158,16 @@ class MockMCP3xxx(MockSPIDevice):
 class MockMCP3xx2(MockMCP3xxx):
     def __init__(
             self, clock_pin, mosi_pin, miso_pin, select_pin=None,
-            bits=10):
+            bits=10, max_voltage=3.3):
         super(MockMCP3xx2, self).__init__(
-            clock_pin, mosi_pin, miso_pin, select_pin, channels=2, bits=bits)
+            clock_pin, mosi_pin, miso_pin, select_pin, channels=2, bits=bits, max_voltage=max_voltage)
         self.channel_bits = 1
 
 
 class MockMCP3002(MockMCP3xx2):
-    def __init__(self, clock_pin, mosi_pin, miso_pin, select_pin=None):
+    def __init__(self, clock_pin, mosi_pin, miso_pin, select_pin=None, max_voltage=3.3):
         super(MockMCP3002, self).__init__(
-            clock_pin, mosi_pin, miso_pin, select_pin, bits=10)
+            clock_pin, mosi_pin, miso_pin, select_pin, bits=10, max_voltage=max_voltage)
 
 
 def clamp(v, min_value, max_value):

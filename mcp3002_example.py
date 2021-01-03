@@ -11,8 +11,8 @@ configuration = {
     "buttons": [],
     "buzzers": [],
     "mcp3002s": [
-        {"x": 34, "y": 160, "name": "ADC 1", "clock_pin": 11, "mosi_pin": 10, "miso_pin": 9, "select_pin": 8},
-        {"x": 172, "y": 230, "name": "ADC 2", "clock_pin": 15, "mosi_pin": 14, "miso_pin": 13, "select_pin": 12}
+        {"x": 34, "y": 160, "name": "ADC 1", "clock_pin": 11, "mosi_pin": 10, "miso_pin": 9, "select_pin": 8, "max_voltage": 5},
+        {"x": 172, "y": 230, "name": "ADC 2", "clock_pin": 15, "mosi_pin": 14, "miso_pin": 13, "select_pin": 12, "max_voltage": 5}
     ],
     "servos": [
         {"x": 154, "y": 148, "length": 90, "name": "Servo 1", "pin": 17, "min_angle": 0, "max_angle": 159},
@@ -27,8 +27,8 @@ def main():
     from gpiozero import MCP3002, AngularServo
     from time import sleep
 
-    pot1 = MCP3002(1, clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
-    pot2 = MCP3002(1, clock_pin=15, mosi_pin=14, miso_pin=13, select_pin=12)
+    pot1 = MCP3002(1, max_voltage=5, clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
+    pot2 = MCP3002(1, max_voltage=5, clock_pin=15, mosi_pin=14, miso_pin=13, select_pin=12)
 
     servo1 = AngularServo(17, min_angle=0, max_angle=159)
     servo1.angle = 0

@@ -220,15 +220,16 @@ class TkServo(TkDevice):
         self._redraw()
 
 class TkMCP3002(TkDevice):
-    def __init__(self, root, x, y, name, clock_pin, mosi_pin, miso_pin, select_pin):
+    def __init__(self, root, x, y, name, clock_pin, mosi_pin, miso_pin, select_pin, max_voltage=3.3):
         super().__init__(root, x, y, name)
 
-        self.mock = MockMCP3002(clock_pin=clock_pin, mosi_pin=mosi_pin, miso_pin=miso_pin, select_pin=select_pin)
+        self.mock = MockMCP3002(max_voltage=max_voltage, clock_pin=clock_pin, mosi_pin=mosi_pin, miso_pin=miso_pin, select_pin=select_pin)
         self.mock.channels[1] = 0
+        self.max_voltage = max_voltage
 
         self._create_main_widget(Scale, None)
         self._widget.config(from_=0, to=100, orient=HORIZONTAL, showvalue=False, command=self.update)
 
     def update(self, event):
         value = self._widget.get()
-        self.mock.channels[1] = (value / 100) * 3.3
+        self.mock.channels[1] = (value / 100) * self.max_voltage
