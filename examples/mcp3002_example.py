@@ -1,6 +1,6 @@
 # MCP3002
 
-from VirtualCopernicusNG import TkCircuit
+from virtual_copernicus_ng import TkCircuit
 
 configuration = {
     "name": "CopernicusNG Sheet",
