@@ -1,25 +1,30 @@
 # Virtual Copernicus NG
 
-Pakiet do symulacji fizycznych urządzeń elektronicznych poprzez graficzny interfejs użytkownika.
+A tool for simulating physical electronic devices through graphical user interface.
 
-## Instalacja
+Copernicus is a tool used during IoT classes at AGH University of Science and Technology.
+You can learn more about the project [here](http://galaxy.agh.edu.pl/~tszydlo/copernicus/).
+
+This package is based on [tkgpio](https://github.com/wallysalami/tkgpio) by [@wallysalami](https://github.com/wallysalami).
+
+## Installation
 
 ```sh
-# Opcjonalnie stworzenie wirtualnego środowiska do instalowania pakietów
+# You can optionally create and enable a virtual environment
+# to avoid installing the packages globally
 python -m venv venv
 source venv/bin/activate
 
-# Zainstalowanie pakietu Virtual Copernicus NG
+# Install Virtual Copernicus NG
 pip install git+https://github.com/dkawalecc/virtual_copernicus_ng.git
 ```
 
-## Zasada użycia
+## Usage
 
 ```py
 from virtual_copernicus_ng import TkCircuit
 
-# Krok 1: definiujemy wirtualny układ poprzez wskazanie
-# jakie znajdują się w nim elementy oraz określeniu ich parametrów.
+# Step 1: Define a virtual circuit by listing its elements and their parameters
 
 configuration = {
     "name": "CopernicusNG SmartHouse",
@@ -34,16 +39,15 @@ configuration = {
     ]
 }
 
-# Krok 2: tworzymy wirtualny układ na podstawie powyższej definicji.
-# W ten sposób tworzony jest graficzny interfejs użytkownika
-# będący reprezentacją rzeczywistego układu.
+# Step 2: Create the virutal circuit based on the above definition.
+# It builds a GUI representing the real circuit.
 
 circuit = TkCircuit(configuration)
 
 @circuit.run
 def main():
-    # Krok 3: w tym miejscu piszemy program w identyczny sposób
-    # co na rzeczywistej płytce Raspberry PI.
+    # Step 3: Write a program the same way you would do it
+    # on a Raspberry Pi board.
 
     from gpiozero import LED, Button
     from time import sleep
@@ -61,15 +65,15 @@ def main():
         sleep(0.1)
 ```
 
-## Przykłady
+## Examples
 
-Kompletne przykłady można znaleźć w katalogu [`examples`](./examples).
+Complete examples can be found in the [`examples`](./examples) directory.
 
-## Dostępne wirtualne elementy
+## Available virtual elements
 
-### Dioda LED
+### LED
 
-**Konfiguracja układu**
+**Circuit configuration**
 
 ```py
 configuration = {
@@ -81,7 +85,7 @@ configuration = {
 }
 ```
 
-**Obsługa elementu**
+**Usage**
 
 ```py
 from gpiozero import LED
@@ -90,9 +94,9 @@ led1 = LED(21)
 led1.toggle()
 ```
 
-### Przycisk
+### Button
 
-**Konfiguracja układu**
+**Circuit configuration**
 
 ```py
 configuration = {
@@ -104,7 +108,7 @@ configuration = {
 }
 ```
 
-**Obsługa elementu**
+**Usage**
 
 ```py
 from gpiozero import Button
@@ -116,9 +120,9 @@ button1 = Button(11)
 button1.when_pressed = handle_button1_press
 ```
 
-### Brzęczyk
+### Buzzer
 
-**Konfiguracja układu**
+**Circuit configuration**
 
 ```py
 configuration = {
@@ -130,7 +134,7 @@ configuration = {
 }
 ```
 
-**Obsługa elementu**
+**Usage**
 
 ```py
 from gpiozero import Buzzer
@@ -141,7 +145,7 @@ buzzer.on()
 
 ### Servo
 
-**Konfiguracja układu**
+**Circuit configuration**
 
 ```py
 configuration = {
@@ -153,7 +157,7 @@ configuration = {
 }
 ```
 
-**Obsługa elementu**
+**Usage**
 
 ```py
 from gpiozero import AngularServo
@@ -162,9 +166,9 @@ servo = AngularServo(17, min_angle=0, max_angle=180)
 servo.angle = 90
 ```
 
-### Przetwornik analogowo cyfrowy (MCP3002)
+### Analog-to-digital converter (MCP3002)
 
-**Konfiguracja układu**
+**Circuit configuration**
 
 ```py
 configuration = {
@@ -176,7 +180,7 @@ configuration = {
 }
 ```
 
-**Obsługa elementu**
+**Usage**
 
 ```py
 from gpiozero import MCP3002
