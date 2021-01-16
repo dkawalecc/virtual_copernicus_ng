@@ -2,10 +2,10 @@
 
 A tool for simulating physical electronic devices through graphical user interface.
 
-Copernicus is a tool used during IoT classes at AGH University of Science and Technology.
+Copernicus is an implement used during IoT classes at AGH University of Science and Technology.
 You can learn more about the project [here](http://galaxy.agh.edu.pl/~tszydlo/copernicus/).
 
-This package is based on [tkgpio](https://github.com/wallysalami/tkgpio) by [@wallysalami](https://github.com/wallysalami).
+This package was created by Jonatan Kłosko, Mateusz Benecki, Dominik Kawalec and Tomasz Rosiek as a form of crediting the IoT classes. It is based on [tkgpio](https://github.com/wallysalami/tkgpio) by [@wallysalami](https://github.com/wallysalami).
 
 ## Installation
 
